@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Home</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Welcome to Django</h1>
+{% block content %}
+
+
+    <h1>Welcome to Smart Notes</h1>
     <p>This is my home page.</p>
+    <a href="{% url 'notes.list' %}" class="btn btn-primary">check out this smart notes</a>
     <p>today is {{today_time}}</p>
 
-</body>
-</html>
+
+
+{% endblock %}

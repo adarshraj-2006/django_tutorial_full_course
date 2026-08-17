@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="{% url 'notes.new' %}" method="POST">{% csrf_token %} 
+    {{form}}
+    <button class="btn-btn danger"> submit</button>
+</form>
+{% if form.errors %}
+<div   class="alert alert-dangerrole=">
+    <ul>
+        {% for field in form %}
+            {% for error in field.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+
+{% endblock %}
