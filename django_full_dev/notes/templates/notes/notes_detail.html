@@ -33,5 +33,6 @@
         </div>
     </div>
 </div>
-
+<a href="{% url 'notes.update' note.pk %}" class="btn btn-secondary mt-3">edit</a>
+<a href="{% url 'notes.delete' note.pk %}" class="btn btn-danger mt-3">delete</a>
 {% endblock %}
