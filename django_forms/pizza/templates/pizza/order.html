@@ -1,18 +1,11 @@
-<h1> Order a Pizza</h1>
+<h1>Order a Pizza</h1>
 
-<form action="{% url 'order' %}",method="POST"> 
+<h2><b>{{note}}</b></h2>
+
+<form enctype="multipart/form-data"action="{% url 'order' %}" method="POST"></form>
     {% csrf_token %}
-    <label for="topping1">Topping1 </label>
-    <input type="text" id="topping1" name="topping1">
 
-    <label for="topping2">Topping2 </label>
-    <input type="text" id="topping2" name="topping2">
+    {{ pizzaform }}
 
-    <label for="size">size </label>
-    <select id="size" name="size">
-        <option value="small">Small</option>
-        <option value="medium">Medium</option>
-        <option value="large">Large</option>
-    </select>
     <input type="submit" value="Place Order">
 </form>
