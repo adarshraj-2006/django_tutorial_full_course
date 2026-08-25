@@ -1,3 +1,20 @@
 ul.errorlist {
     display : none;
 }
+
+/* Background image section below the navbar */
+.page-background {
+  background-image: url("../images/OIP.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: calc(100vh - 56px); /* leaves space for navbar */
+  padding-top: 20px;
+}
+
+/* Optional content wrapper to improve readability over the image */
+.content-wrapper {
+  background: rgba(255,255,255,0.85);
+  padding: 20px;
+  border-radius: 6px;
+}
