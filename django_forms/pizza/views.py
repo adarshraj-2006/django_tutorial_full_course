@@ -22,7 +22,7 @@ def order(request):
                 'note': note,
                 'pizzaform': filled_form,
                 'multiple_form':multiple_form,
-                'created_pizza':created_pizza
+                'created_pizza_pk':created_pizza_pk
             })
     
     else:
@@ -57,4 +57,10 @@ def edit_order(request,pk):
         if filled_form.is_valid():
             filled_form.save()
             form=filled_form
+            note='Order is edited successfully !'
+            return render(request,'pizza/edit_order.html',{
+                'pizzaform':form,
+                'pizza':pizza,
+                'note':note
+            })
     return render(request,'pizza/edit_order.html',{'pizzaform':form,'pizza':pizza})
