@@ -1,13 +1,59 @@
-<h1>Order Pizzas</h1>
-<h2>{{note}}</h2>
+{% extends 'pizza/base.html' %}
 
-<form action="{% url 'pizzas' %}" method="POST">
-    {% csrf_token %}
-    {{formset.management_form}}
+{% block 'body' %}
+{% load widget_tweaks %}
 
-    {% for form in formset %}
-    {{form}}
-    <br><br>
-    {% endfor %}
-    <input type="submit" value="order pizzas">
-</form>
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card bg-dark text-white bg-opacity-75 border-secondary border-opacity-50 p-4 shadow">
+            <h1 class="mb-4 text-center">Order Multiple <span class="text-warning">Pizzas</span></h1>
+
+            {% if note %}
+                <div class="alert alert-success bg-success bg-opacity-25 border-success text-white mb-4" role="alert">
+                    <h5 class="alert-heading mb-1">Status</h5>
+                    {{ note }}
+                </div>
+            {% endif %}
+
+            <form action="{% url 'pizzas' %}" method="POST" novalidate>
+                {% csrf_token %}
+                {{ formset.management_form }}
+
+                <div class="row">
+                    {% for form in formset %}
+                        <div class="col-md-6 mb-4">
+                            <div class="p-3 border border-secondary border-opacity-25 rounded-3 bg-secondary bg-opacity-10">
+                                <h5 class="mb-3 text-warning border-bottom border-secondary border-opacity-25 pb-2">Pizza #{{ forloop.counter }}</h5>
+                                {% for field in form %}
+                                    <div class="form-group mb-2">
+                                        <label for="{{ field.id_for_label }}" class="form-label small mb-1">{{ field.label }}</label>
+                                        
+                                        {% if field.errors %}
+                                            <div class="text-danger small mb-1">
+                                                {% for error in field.errors %}
+                                                    <div>{{ error }}</div>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+
+                                        {% if field.name == 'size' %}
+                                            {{ field|add_class:"form-select form-select-sm" }}
+                                        {% else %}
+                                            {{ field|add_class:"form-control form-control-sm" }}
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="d-flex gap-2 mt-3">
+                    <a href="{% url 'order' %}" class="btn btn-outline-light flex-grow-1 text-center py-2">Back to Single Order</a>
+                    <button type="submit" class="btn btn-warning fw-bold flex-grow-1 py-2 fs-5">Order All Pizzas</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

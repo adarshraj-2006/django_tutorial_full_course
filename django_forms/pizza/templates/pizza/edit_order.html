@@ -1,11 +1,49 @@
-<h1>Edit Pizza</h1>
+{% extends 'pizza/base.html' %}
 
-<form  action="{% url 'edit_order' pizza.id %}" method="POST">
-    {% csrf_token %}
+{% block 'body' %}
+{% load widget_tweaks %}
 
-    {{ pizzaform }}
-    {{pizza.id}}
-    {{note}}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card bg-dark text-white bg-opacity-75 border-secondary border-opacity-50 p-4 shadow">
+            <h1 class="mb-4 text-center">Edit Order <span class="text-warning">#{{ pizza.id }}</span></h1>
 
-    <input type="submit" value="Edit pizza">
-</form>
+            {% if note %}
+                <div class="alert alert-success bg-success bg-opacity-25 border-success text-white mb-4" role="alert">
+                    <h5 class="alert-heading mb-1">Success!</h5>
+                    {{ note }}
+                </div>
+            {% endif %}
+
+            <form action="{% url 'edit_order' pizza.id %}" method="POST" novalidate>
+                {% csrf_token %}
+
+                {% for field in pizzaform %}
+                    <div class="form-group mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        
+                        {% if field.errors %}
+                            <div class="text-danger small mb-1">
+                                {% for error in field.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if field.name == 'size' %}
+                            {{ field|add_class:"form-select" }}
+                        {% else %}
+                            {{ field|add_class:"form-control" }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <div class="d-flex gap-2 mt-4">
+                    <a href="{% url 'order' %}" class="btn btn-outline-light flex-grow-1 text-center py-2">Back to Order</a>
+                    <button type="submit" class="btn btn-warning fw-bold flex-grow-1 py-2">Update Pizza</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

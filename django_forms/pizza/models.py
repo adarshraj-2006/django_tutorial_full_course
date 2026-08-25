@@ -8,6 +8,7 @@ class SizePizza(models.Model):
         return self.title
 
 class Pizza(models.Model):
+    
     topping1=models.CharField(max_length=100)
     topping2=models.CharField(max_length=100)
     size=models.ForeignKey(SizePizza,on_delete=models.CASCADE)

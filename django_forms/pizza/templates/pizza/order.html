@@ -1,22 +1,68 @@
-<h1>Order a Pizza</h1>
-
-<h2><b>{{note}}</b></h2>
-{% if created_pizza_pk %}
-<a href="{% url 'edit_order' created_pizza_pk %}">Edit your Order</a>
-{% endif %}
-<!-- use in form enctype="multipart/form-data" -->
-<form  action="{% url 'order' %}" method="POST">
-    {% csrf_token %}
-
-    {{ pizzaform }}
-
-    <input type="submit" value="Place Order">
-</form>
-
-<br><br>
 
 
-<form action="{% url 'pizzas' %}" method="get">
-    {{multiple_form}}
-    <input type="submit" value="Get Pizzas">
-</form>
+{% extends 'pizza/base.html' %}
+
+{% block 'body' %}
+{% load widget_tweaks %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card bg-dark text-white bg-opacity-75 border-secondary border-opacity-50 p-4 shadow">
+            <h1 class="mb-4 text-center">Order a <span class="text-warning">Pizza</span></h1>
+
+            {% if note %}
+                <div class="alert alert-success bg-success bg-opacity-25 border-success text-white mb-4" role="alert">
+                    <h5 class="alert-heading mb-1">Success!</h5>
+                    {{ note }}
+                </div>
+            {% endif %}
+
+            {% if created_pizza_pk %}
+                <div class="text-center mb-4">
+                    <a href="{% url 'edit_order' created_pizza_pk %}" class="btn btn-outline-warning">
+                        Edit your Order
+                    </a>
+                </div>
+            {% endif %}
+
+            <form action="{% url 'order' %}" method="POST" novalidate>
+                {% csrf_token %}
+
+                {% for field in pizzaform %}
+                    <div class="form-group mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        
+                        {% if field.errors %}
+                            <div class="text-danger small mb-1">
+                                {% for error in field.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if field.name == 'size' %}
+                            {{ field|add_class:"form-select" }}
+                        {% else %}
+                            {{ field|add_class:"form-control" }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-warning fw-bold w-100 mt-3 py-2 fs-5">Place Order</button>
+            </form>
+
+            <hr class="my-4 border-secondary border-opacity-50">
+
+            <h3 class="mb-3 text-center fs-4">Order Multiple Pizzas</h3>
+            <form action="{% url 'pizzas' %}" method="get" class="d-flex gap-2 align-items-end">
+                <div class="flex-grow-1">
+                    <label for="{{ multiple_form.number.id_for_label }}" class="form-label">Number of Pizzas</label>
+                    {{ multiple_form.number|add_class:"form-control" }}
+                </div>
+                <button type="submit" class="btn btn-outline-light py-2">Get Pizzas</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

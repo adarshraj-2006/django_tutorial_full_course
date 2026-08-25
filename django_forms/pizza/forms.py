@@ -10,7 +10,8 @@ from . models import Pizza
 
 class PizzaForm(forms.ModelForm):
     #   we can also widget here through models
-
+    # email=forms.EmailField()
+    # url=forms.URLField()
     # image=forms.ImageField()
     class Meta:
         model=Pizza

@@ -1,2 +1,16 @@
-<h1> Adarsh's Garden</h1>
-<a href="{% url 'order' %}">Place an Order</a>
+{% extends 'pizza/base.html' %}
+
+{% block 'body' %}
+
+<div class="row">
+    <div class="col-md-8 col-lg-6 text-start text-white py-5">
+        <h1 class="display-3 mb-4 fw-bold">Welcome to <span class="text-warning">Adarsh Garden</span></h1>
+        <p class="fs-5 mb-3">Experience the art of authentic Italian pizza crafted with fresh ingredients, rich sauce, and love.</p>
+        <p class="fs-6 mb-4">Craving something delicious? Choose your toppings, pick your size, and order your custom pizza now!</p>
+        <div>
+            <a href="{% url 'order' %}" class="btn btn-warning btn-lg fw-bold px-4 py-2">Order Now</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
