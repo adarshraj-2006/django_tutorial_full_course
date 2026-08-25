@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h1>Order Pizzas</h1>
 <h2>{{note}}</h2>
 
@@ -11,3 +14,4 @@
     {% endfor %}
     <input type="submit" value="order pizzas">
 </form>
+{% endblock %}

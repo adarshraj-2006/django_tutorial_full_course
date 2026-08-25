@@ -40,9 +40,20 @@ def pizzas(request):
     if request.method == 'POST':
         filled_formset=PizzaFormSet(request.POST)
         if filled_formset.is_valid():
+            created_count = 0
             for form in filled_formset:
-                print(form.cleaned_data['topping1'])
-            note='Pizzas has been ordered'
+                # skip empty forms
+                if form.cleaned_data:
+                    Pizza.objects.create(
+                        topping1=form.cleaned_data.get('topping1'),
+                        topping2=form.cleaned_data.get('topping2'),
+                        size=form.cleaned_data.get('size')
+                    )
+                    created_count += 1
+            if created_count:
+                note=f"{created_count} pizza(s) have been ordered"
+            else:
+                note='No pizzas were ordered'
         else:
             note='Order was not created, please try again'
         return render(request,'pizza/pizzas.html',{'note':note,'formset':formset})
